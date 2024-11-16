@@ -42,6 +42,11 @@ class MapServer:
  
 class Client:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
- 
+    def __init__(self, server) -> None: #typ servera????
+        self.server = server
+
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
-        raise NotImplementedError()
+        try:
+            pass
+        except TooManyProductsFoundError:
+            return None

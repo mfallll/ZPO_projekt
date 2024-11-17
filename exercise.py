@@ -33,11 +33,16 @@ class TooManyProductsFoundError:
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
  
 class ListServer:
-    pass
+    def __init__(self, LP : list[Product]):
+        self.products = LP
+    
+    def get_entries(self, n_letters : int = 1):
+        pass
  
  
 class MapServer:
-    pass
+    def __init__(self, DP : dict[str, Product]):
+        self.products = DP
  
  
 class Client:

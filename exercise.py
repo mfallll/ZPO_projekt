@@ -1,14 +1,14 @@
 from typing import Optional
 import re
  
- 
+
 class Product:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
     def __init__(self, name: str, price: float) -> None:
         if re.fullmatch('[a-zA-Z]{1,}+\\d{1,}', name):
             self.name = name
             self.price = price
-            print('jestem')
+            #print('jestem')
         else:
             raise ValueError
 
@@ -22,8 +22,10 @@ class Product:
         return hash((self.name, self.price))
  
  
-class TooManyProductsFoundError:
+class TooManyProductsFoundError(Exception):
     # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
+    def __init__(self, message):
+         self.message = message
     pass
  
  
@@ -33,24 +35,39 @@ class TooManyProductsFoundError:
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
  
 class ListServer:
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
     def __init__(self, LP : list[Product]):
         self.products = LP
     
     def get_entries(self, n_letters : int = 1):
-        pass
+        if n_letters < 1:
+            raise ValueError
+        
+        self.retprodlist = []
+        for prod in self.products:
+            if prod.name[n_letters-1] not in self.numbers:
+                if prod.name[n_letters] in self.numbers:
+                    self.retprodlist.append(prod)
+
+        return self.retprodlist
  
  
 class MapServer:
+    DP = dict()
     def __init__(self, DP : dict[str, Product]):
         self.products = DP
+
+    def get_entries(self, n_letters : int = 1):
+        return self.products
  
  
 class Client:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
-    def __init__(self, server) -> None: #typ servera????
+    def __init__(self, server : ListServer | MapServer) -> None: #typ servera????
         self.server = server
 
-    def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
+    def get_total_price(self, n_letters : int = 1) -> Optional[float]:
         try:
             pass
         except TooManyProductsFoundError:

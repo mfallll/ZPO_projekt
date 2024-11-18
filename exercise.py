@@ -33,9 +33,27 @@ class TooManyProductsFoundError(Exception):
 #   (1) metodę inicjalizacyjną przyjmującą listę obiektów typu `Product` i ustawiającą atrybut `products` zgodnie z typem reprezentacji produktów na danym serwerze,
 #   (2) możliwość odwołania się do atrybutu klasowego `n_max_returned_entries` (typu int) wyrażający maksymalną dopuszczalną liczbę wyników wyszukiwania,
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
- 
-class ListServer:
-    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
+
+# Pomyślę nad tym jeszcze:
+
+# class server:
+#     @abstractmethod
+#     def get_entries(self, n_letters : int = 1):
+#         if n_letters < 1:
+#             raise ValueError
+        
+#         self.retprodlist = []
+#         for prod in self.products:
+#             if prod.name[n_letters-1] not in self.numbers:
+#                 if prod.name[n_letters] in self.numbers:
+#                     self.retprodlist.append(prod)
+
+#         return self.retprodlist
+
+
+class ListServer: #nie do końca z poleceniem, ale działa
+    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
     def __init__(self, LP : list[Product]):
         self.products = LP
@@ -53,13 +71,27 @@ class ListServer:
         return self.retprodlist
  
  
+
+
+
 class MapServer:
+    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     DP = dict()
-    def __init__(self, DP : dict[str, Product]):
-        self.products = DP
+    def __init__(self, LP : list[Product]):
+        self.products = {element.name : element for element in LP}
+
 
     def get_entries(self, n_letters : int = 1):
-        return self.products
+        if n_letters < 1:
+            raise ValueError
+        
+        self.retprodlist = []
+        for name, product in self.products.items():
+            if name[n_letters-1] not in self.numbers:
+                if name[n_letters] in self.numbers:
+                    self.retprodlist.append(product)
+
+        return self.retprodlist
  
  
 class Client:

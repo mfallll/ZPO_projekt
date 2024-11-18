@@ -9,10 +9,20 @@ server_types = (ListServer, MapServer)
 class ServerTest(unittest.TestCase):
     def test_get_entries_returns_proper_entries(self):
         products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+        i = 1
         for server_type in server_types:
+            print("\n\n\ntest " + str(i) + "\n\n")
             server = server_type(products)
             entries = server.get_entries(2)
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
+            i += 1
+
+    def test_get_entries_returns_proper_entries1(self):
+        products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+        
+        server = ListServer(products)
+        entries = server.get_entries(2)
+        self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
  
  
 class ClientTest(unittest.TestCase):

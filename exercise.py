@@ -99,7 +99,7 @@ class Client:
 
     def get_total_price(self, n_letters : int = 1) -> Optional[float]:
         try:
-            entries = get_entries(n_letters)
+            entries = self.server.get_entries(n_letters)
             if entries:
                 return sum([e.price for e in entries])
             else:

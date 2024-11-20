@@ -62,7 +62,7 @@ class ListServer(Server):
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError(len(self.retprodlist))
-        return self.retprodlist
+        return sorted(self.retprodlist, key = lambda product : product.price)
  
  
 
@@ -89,7 +89,7 @@ class MapServer(Server):
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError(len(self.retprodlist))
-        return self.retprodlist
+        return sorted(self.retprodlist, key = lambda product : product.price)
  
  
 class Client:

@@ -94,7 +94,7 @@ class MapServer(Server):
  
 class Client:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
-    def __init__(self, server : ListServer | MapServer) -> None: #typ servera????
+    def __init__(self, server : Server) -> None:
         self.server = server
 
     def get_total_price(self, n_letters : int = 1) -> Optional[float]:

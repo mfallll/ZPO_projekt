@@ -1,5 +1,6 @@
 from typing import Optional
 import re
+import abc
  
 
 class Product:
@@ -36,8 +37,8 @@ class TooManyProductsFoundError(Exception):
 
 
 
-class Server:
-    @abstractmethod
+class Server(abc.ABC):
+    @abc.abstractmethod
     def get_entries(self, n_letters : int = 1):
         pass
 

@@ -38,10 +38,10 @@ class ClientTest(unittest.TestCase):
             server = server_type(products)
             client = Client(server)
             self.assertEqual(5, client.get_total_price(2))
-    # def test_total_price_exception(self):
-    #     products = [Product('PP234', 2), Product('PP235', 3), Product('PP236', 4), Product('PP237', 5), Product('PP238', 6)]
-    #     for server_type in server_types:
-    #         server = server_type(products)
-    #         client = Client(server)
-    #         self.assertEqual(None, Client.get_total_price(2))
+    def test_total_price_exception(self):
+        products = [Product('PP234', 2), Product('PP235', 3), Product('PP236', 4), Product('PP237', 5), Product('PP238', 6)]
+        for server_type in server_types:
+            server = server_type(products)
+            client = Client(server)
+            self.assertEqual(None, Client.get_total_price(2))
                 

@@ -18,11 +18,11 @@ class ServerTest(unittest.TestCase):
     #TODO:
 
     def test_get_entries_in_proper_order(self):
-        products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+        products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1), Product('PP205', 8), Product('PP2305', 0.5)]
         for server_type in server_types:
             server = server_type(products)
             entries = server.get_entries(2)
-            self.assertEqual([products[1], products[2]], entries)
+            self.assertEqual([products[4], products[2], products[1], products[3]],  entries)
 
     def test_n_max_returned_entries(self):
         products = [Product('PP321', 1), Product('PP434', 2), Product('PP121', 1), Product('PP234', 2), Product('PP235', 1)]

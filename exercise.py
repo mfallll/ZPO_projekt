@@ -4,7 +4,7 @@ import abc
  
 
 class Product:
-    # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
+    #klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
     def __init__(self, name: str, price: float) -> None:
         if re.fullmatch('[a-zA-Z]{1,}+\\d{1,}', name):
             self.name = name
@@ -29,7 +29,7 @@ class TooManyProductsFoundError(Exception):
     pass
  
  
-# FIXME: Każada z poniższych klas serwerów powinna posiadać:
+#   Każada z poniższych klas serwerów powinna posiadać:
 #   (1) metodę inicjalizacyjną przyjmującą listę obiektów typu `Product` i ustawiającą atrybut `products` zgodnie z typem reprezentacji produktów na danym serwerze,
 #   (2) możliwość odwołania się do atrybutu klasowego `n_max_returned_entries` (typu int) wyrażający maksymalną dopuszczalną liczbę wyników wyszukiwania,
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
@@ -53,11 +53,8 @@ class ListServer(Server):
         if n_letters < 1:
             raise ValueError
         
-        self.retprodlist = []
-        for prod in self.products:
-            if prod.name[n_letters-1] not in self.numbers:
-                if prod.name[n_letters] in self.numbers:
-                    self.retprodlist.append(prod)
+        pattern = rf"[a-zA-Z]{{{n_letters}}}\d+"
+        self.retprodlist = [s for s in self.products if re.fullmatch(pattern, s.name)]
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
@@ -80,11 +77,8 @@ class MapServer(Server):
         if n_letters < 1:
             raise ValueError
         
-        self.retprodlist = []
-        for name, product in self.products.items():
-            if name[n_letters-1] not in self.numbers:
-                if name[n_letters] in self.numbers:
-                    self.retprodlist.append(product)
+        pattern = rf"[a-zA-Z]{{{n_letters}}}\d+"
+        self.retprodlist = [s for name, s in self.products.items() if re.fullmatch(pattern, name)]
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
@@ -92,7 +86,7 @@ class MapServer(Server):
  
  
 class Client:
-    # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
+    #klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
     def __init__(self, server : Server) -> None:
         self.server = server
 

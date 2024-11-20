@@ -9,7 +9,6 @@ class Product:
         if re.fullmatch('[a-zA-Z]{1,}+\\d{1,}', name):
             self.name = name
             self.price = price
-            #print('jestem')
         else:
             raise ValueError
 

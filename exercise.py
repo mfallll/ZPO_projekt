@@ -1,5 +1,6 @@
 from typing import Optional
 import re
+import abc
  
 
 class Product:
@@ -35,24 +36,14 @@ class TooManyProductsFoundError(Exception):
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
 
 
-# Pomyślę nad tym jeszcze:
 
-# class server:
-#     @abstractmethod
-#     def get_entries(self, n_letters : int = 1):
-#         if n_letters < 1:
-#             raise ValueError
-        
-#         self.retprodlist = []
-#         for prod in self.products:
-#             if prod.name[n_letters-1] not in self.numbers:
-#                 if prod.name[n_letters] in self.numbers:
-#                     self.retprodlist.append(prod)
-
-#         return self.retprodlist
+class Server(abc.ABC):
+    @abc.abstractmethod
+    def get_entries(self, n_letters : int = 1):
+        pass
 
 
-class ListServer: #nie do końca z poleceniem, ale działa
+class ListServer(Server):
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     n_max_returned_entries = 4
 
@@ -77,10 +68,10 @@ class ListServer: #nie do końca z poleceniem, ale działa
 
 
 
-class MapServer:
+class MapServer(Server):
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     n_max_returned_entries = 4
-    
+
     DP = dict()
     def __init__(self, LP : list[Product]):
         self.products = {element.name : element for element in LP}

@@ -13,7 +13,15 @@ class ServerTest(unittest.TestCase):
             server = server_type(products)
             entries = server.get_entries(2)
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
- 
+            
+
+    def test_get_entries_in_proper_order(self):
+        products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+        for server_type in server_types:
+            server = server_type(products)
+            entries = server.get_entries(2)
+            self.assertEqual(Counter([products[1], products[2]]), Counter(entries))
+            
  
 class ClientTest(unittest.TestCase):
     def test_total_price_for_normal_execution(self):

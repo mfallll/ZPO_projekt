@@ -1,7 +1,7 @@
 import unittest
 from collections import Counter
  
-from exercise import ListServer, Product, Client, MapServer
+from exercise import ListServer, Product, Client, MapServer, TooManyProductsFoundError
  
 server_types = (ListServer, MapServer)
  
@@ -15,12 +15,23 @@ class ServerTest(unittest.TestCase):
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
             
 
+    #TODO:
+
     def test_get_entries_in_proper_order(self):
         products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
         for server_type in server_types:
             server = server_type(products)
             entries = server.get_entries(2)
-            self.assertEqual(Counter([products[1], products[2]]), Counter(entries))
+            self.assertEqual([products[1], products[2]], entries)
+
+    def test_n_max_returned_entries(self):
+        products = [Product('PP321', 1), Product('PP434', 2), Product('PP121', 1), Product('PP234', 2), Product('PP235', 1)]
+        for server_type in server_types:
+            server = server_type(products)
+            server.n_max_returned_entries = 4
+
+            with self.assertRaises(TooManyProductsFoundError):
+                entries = server.get_entries(2) 
             
  
 class ClientTest(unittest.TestCase):

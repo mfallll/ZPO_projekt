@@ -25,8 +25,8 @@ class Product:
  
 class TooManyProductsFoundError(Exception):
     # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
-    def __init__(self, number):
-         self.message = "Found too many products: {0}".format(number)
+    def __init__(self):
+         self.message = "Found too many products"
     pass
  
  
@@ -61,7 +61,7 @@ class ListServer(Server):
                     self.retprodlist.append(prod)
 
         if len(self.retprodlist) > self.n_max_returned_entries:
-            raise TooManyProductsFoundError(len(self.retprodlist))
+            raise TooManyProductsFoundError
         return self.retprodlist
  
  
@@ -88,7 +88,7 @@ class MapServer(Server):
                     self.retprodlist.append(product)
 
         if len(self.retprodlist) > self.n_max_returned_entries:
-            raise TooManyProductsFoundError(len(self.retprodlist))
+            raise TooManyProductsFoundError
         return self.retprodlist
  
  
@@ -99,7 +99,7 @@ class Client:
 
     def get_total_price(self, n_letters : int = 1) -> Optional[float]:
         try:
-            entries = get_entries(n_letters)
+            entries = self.server.get_entries(n_letters)
             if entries:
                 return sum([e.price for e in entries])
             else:

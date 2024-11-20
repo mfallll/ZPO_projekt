@@ -37,6 +37,8 @@ class TooManyProductsFoundError(Exception):
 
 
 class Server(abc.ABC):
+    n_max_returned_entries = 4
+    
     @abc.abstractmethod
     def get_entries(self, n_letters : int = 1):
         pass

@@ -1,7 +1,7 @@
 import unittest
 from collections import Counter
  
-from exercise import ListServer, Product, Client, MapServer, TooManyProductsFoundError
+from exercise import ListServer, Product, Client, MapServer, TooManyProductsFoundError, Server
  
 server_types = (ListServer, MapServer)
  
@@ -28,7 +28,17 @@ class ServerTest(unittest.TestCase):
             server.n_max_returned_entries = 4
 
             with self.assertRaises(TooManyProductsFoundError):
-                entries = server.get_entries(2) 
+                entries = server.get_entries(2)
+
+    def test_server_has_class_attribute(self):
+        self.assertTrue(hasattr(Server, 'n_max_returned_entries'))
+
+    # def test_get_entries_raises_exceptions_if_too_many_results(self):
+    #     for i in range(Server.n_max_returned_entries + 1):
+    #         products = [Product('PP321', 1), Product('PP434', 2), Product('PP121', 1), Product('PP234', 2), Product('PP235', 1)]
+    #         for server_type in server_types:
+    #             server = server_type(products)
+    #             server.get_entries(i)
             
  
 class ClientTest(unittest.TestCase):

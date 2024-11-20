@@ -108,6 +108,10 @@ class Client:
 
     def get_total_price(self, n_letters : int = 1) -> Optional[float]:
         try:
-            pass
+            entries = get_entries(n_letters)
+            if entries:
+                return sum([e.price for e in entries])
+            else:
+                return None
         except TooManyProductsFoundError:
             return None

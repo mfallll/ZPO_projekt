@@ -9,7 +9,6 @@ class Product:
         if re.fullmatch('[a-zA-Z]{1,}+\\d{1,}', name):
             self.name = name
             self.price = price
-            #print('jestem')
         else:
             raise ValueError
 
@@ -62,7 +61,7 @@ class ListServer(Server):
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
-        return self.retprodlist
+        return sorted(self.retprodlist, key = lambda product : product.price)
  
  
 
@@ -89,12 +88,12 @@ class MapServer(Server):
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
-        return self.retprodlist
+        return sorted(self.retprodlist, key = lambda product : product.price)
  
  
 class Client:
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
-    def __init__(self, server : ListServer | MapServer) -> None: #typ servera????
+    def __init__(self, server : Server) -> None:
         self.server = server
 
     def get_total_price(self, n_letters : int = 1) -> Optional[float]:

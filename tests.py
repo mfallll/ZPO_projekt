@@ -13,9 +13,6 @@ class ServerTest(unittest.TestCase):
             server = server_type(products)
             entries = server.get_entries(2)
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
-            
-
-    #TODO:
 
     def test_get_entries_in_proper_order(self):
         products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1), Product('PP205', 8), Product('PP2305', 0.5)]

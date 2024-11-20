@@ -18,6 +18,8 @@ class Product:
                 return True
             else:
                 return False
+        else:
+            return False
  
     def __hash__(self):
         return hash((self.name, self.price))

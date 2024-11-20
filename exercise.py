@@ -24,8 +24,8 @@ class Product:
  
 class TooManyProductsFoundError(Exception):
     # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
-    def __init__(self, message):
-         self.message = message
+    def __init__(self, number):
+         self.message = "Found too many products: {0}".format(number)
     pass
  
  
@@ -54,6 +54,7 @@ class TooManyProductsFoundError(Exception):
 
 class ListServer: #nie do końca z poleceniem, ale działa
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    n_max_returned_entries = 4
 
     def __init__(self, LP : list[Product]):
         self.products = LP
@@ -68,6 +69,8 @@ class ListServer: #nie do końca z poleceniem, ale działa
                 if prod.name[n_letters] in self.numbers:
                     self.retprodlist.append(prod)
 
+        if len(self.retprodlist) > self.n_max_returned_entries:
+            raise TooManyProductsFoundError(len(self.retprodlist))
         return self.retprodlist
  
  
@@ -76,6 +79,8 @@ class ListServer: #nie do końca z poleceniem, ale działa
 
 class MapServer:
     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+    n_max_returned_entries = 4
+    
     DP = dict()
     def __init__(self, LP : list[Product]):
         self.products = {element.name : element for element in LP}
@@ -91,6 +96,8 @@ class MapServer:
                 if name[n_letters] in self.numbers:
                     self.retprodlist.append(product)
 
+        if len(self.retprodlist) > self.n_max_returned_entries:
+            raise TooManyProductsFoundError(len(self.retprodlist))
         return self.retprodlist
  
  

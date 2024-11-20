@@ -48,9 +48,6 @@ class Server(abc.ABC):
 
 
 class ListServer(Server):
-    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-    n_max_returned_entries = 4
-
     def __init__(self, LP : list[Product]):
         self.products = LP
     
@@ -58,11 +55,8 @@ class ListServer(Server):
         if n_letters < 1:
             raise ValueError
         
-        self.retprodlist = []
-        for prod in self.products:
-            if prod.name[n_letters-1] not in self.numbers:
-                if prod.name[n_letters] in self.numbers:
-                    self.retprodlist.append(prod)
+        pattern = rf"[a-zA-Z]{{{n_letters}}}\d+"
+        self.retprodlist = [s for s in self.products if re.fullmatch(pattern, s.name)]
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
@@ -73,9 +67,6 @@ class ListServer(Server):
 
 
 class MapServer(Server):
-    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-    n_max_returned_entries = 4
-
     DP = dict()
     def __init__(self, LP : list[Product]):
         self.products = {element.name : element for element in LP}
@@ -85,11 +76,8 @@ class MapServer(Server):
         if n_letters < 1:
             raise ValueError
         
-        self.retprodlist = []
-        for name, product in self.products.items():
-            if name[n_letters-1] not in self.numbers:
-                if name[n_letters] in self.numbers:
-                    self.retprodlist.append(product)
+        pattern = rf"[a-zA-Z]{{{n_letters}}}\d+"
+        self.retprodlist = [s for name, s in self.products.items() if re.fullmatch(pattern, name)]
 
         if len(self.retprodlist) > self.n_max_returned_entries:
             raise TooManyProductsFoundError
